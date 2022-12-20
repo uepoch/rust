@@ -103,7 +103,8 @@ pub fn quote(stream: TokenStream) -> TokenStream {
                     }),
                     (@ quote(tt.stream())),
                 ))),
-                TokenTree::Ident(tt) => quote!(crate::TokenTree::Ident(crate::Ident::new(
+                TokenTree::Ident(tt) => quote!(crate::TokenTree::Ident(
+                    if tt.is_raw {crate::Ident::new_raw} else {crate::Ident::new}(
                     (@ TokenTree::from(Literal::string(&tt.to_string()))),
                     (@ quote_span(proc_macro_crate.clone(), tt.span())),
                 ))),
